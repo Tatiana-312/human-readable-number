@@ -3,37 +3,31 @@ module.exports = function toReadable (number) {
     const arrDozens = ['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
 
     if (number < 20) {
-        const result = arr[number];
-        return result;
-    } else if (number >= 20 && number < 100) {
+        return arr[number];
+    }
+
+    if (number < 100) {
         const readableDozens = arrDozens[Math.floor(number / 10)];
         const readableUnits = arr[number % 10];
-        if (readableUnits === 'zero') {
-            const result = `${readableDozens}`;
-            return result;
-        }
-        const result = `${readableDozens} ${readableUnits}`;
-        return result;
-    } else if (number >= 100) {
-        if (number % 100 < 20 && number % 100 !== 0) {
-            const readableHundreds = arr[Math.floor(number / 100)];
-            const readableDozens = arr[number % 100];
-            const result = `${readableHundreds} hundred ${readableDozens}`;
-            return result;
-        } else if (number % 100 === 0) {
-            const readableHundreds = arr[Math.floor(number / 100)];
-            const result = `${readableHundreds} hundred`;
-            return result;
-        }
+        return readableUnits === "zero"
+            ? `${readableDozens}`
+            : `${readableDozens} ${readableUnits}`;
+    }
+
+    if (number >= 100) {
         const readableHundreds = arr[Math.floor(number / 100)];
-        const readableDozens = arrDozens[(Math.floor(number / 10)) % 10];
-        const readableUnits = arr[number % 10];
-        if (readableUnits === 'zero') {
-            const result = `${readableHundreds} hundred ${readableDozens}`;
-            return result;
-        } else {
-            const result = `${readableHundreds} hundred ${readableDozens} ${readableUnits}`;
-            return result;
+        if (number % 100 < 20 && number % 100 !== 0) {
+            const readableDozens = arr[number % 100];
+            return `${readableHundreds} hundred ${readableDozens}`;
         }
+        
+        if (number % 100 === 0) {
+            return `${readableHundreds} hundred`;
+        }
+        const readableDozens = arrDozens[Math.floor(number / 10) % 10];
+        const readableUnits = arr[number % 10];
+        return readableUnits === "zero"
+            ? `${readableHundreds} hundred ${readableDozens}`
+            : `${readableHundreds} hundred ${readableDozens} ${readableUnits}`;
     }
 }
